@@ -1,0 +1,30 @@
+FROM ubuntu:18.04
+MAINTAINER jedhong2019@gmail.com
+
+RUN apt-get update \
+	&& apt-get upgrade -y \
+	&& apt-get install sudo -y \
+	&& apt-get install systemd -y \
+	&& apt-get install software-properties-common lsb-release ca-certificates apt-transport-https -y \
+	&& apt install nano unzip curl wget gnupg2 ca-certificates lsb-release apt-transport-https -y \
+	&& useradd -g root -G sudo -p 'User001@7788' user001 \
+	&& apt-get install nginx -y \
+	&& apt-add-repository ppa:ondrej/php -y \
+	&& apt-get install mysql-server -y \
+	&& wget -qO- http://www.webmin.com/jcameron-key.asc | apt-key add \
+	&& add-apt-repository "deb http://download.webmin.com/download/repository sarge contrib" -y \
+	&& apt-get install webmin -y \
+	&& apt-get update \
+	&& apt-get clean -y \
+	&& apt-get autoclean -y
+
+EXPOSE 80
+EXPOSE 443
+EXPOSE 8080
+EXPOSE 22
+EXPOSE 5000
+EXPOSE 9000
+EXPOSE 3306
+EXPOSE 27017
+
+CMD ["nginx","-g","daemon off;"]
